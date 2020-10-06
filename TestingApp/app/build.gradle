@@ -31,9 +31,16 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
-    // Test
+    // testImplementation : com (test)
+    // androidTestImplementation : com (androidTest)
+
+    // Only for the test source set
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'com.google.truth:truth:1.0.1' // assertions
+
+    // Android test source set
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'com.google.truth:truth:1.0.1' // assertions
 
 }
