@@ -2,8 +2,11 @@ package com.bsrakdg.shoppingapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.bsrakdg.shoppingapp.data.local.ShoppingDao
 import com.bsrakdg.shoppingapp.data.local.ShoppingItemDatabase
 import com.bsrakdg.shoppingapp.data.remote.PixabayAPI
+import com.bsrakdg.shoppingapp.repositories.DefaultShoppingRepository
+import com.bsrakdg.shoppingapp.repositories.ShoppingRepository
 import com.bsrakdg.shoppingapp.util.Constant.BASE_URL
 import com.bsrakdg.shoppingapp.util.Constant.DATABASE_NAME
 import dagger.Module
@@ -29,6 +32,12 @@ object AppModule {
         DATABASE_NAME
     ).build()
 
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(
+        dao: ShoppingDao,
+        api: PixabayAPI
+    ) = DefaultShoppingRepository(dao, api) as ShoppingRepository
 
     @Singleton
     @Provides
