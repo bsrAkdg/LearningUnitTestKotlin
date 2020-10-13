@@ -83,4 +83,15 @@ class ShoppingViewModelTest {
 
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.SUCCESS)
     }
+
+    @Test
+    fun `search for image with query and should network error false` () {
+        viewModel.searchForImage("orange")
+
+        val value = viewModel.images.getOrAwaitValueTest()
+
+        assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.SUCCESS)
+
+    }
+
 }
