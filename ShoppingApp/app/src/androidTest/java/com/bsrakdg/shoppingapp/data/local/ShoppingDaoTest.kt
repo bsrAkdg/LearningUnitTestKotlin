@@ -1,18 +1,18 @@
 package com.bsrakdg.shoppingapp.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * SmallTest : Unit test
@@ -21,27 +21,37 @@ import org.junit.runner.RunWith
  *
  * Look at : small-medium-large-test.png
  */
+
+// Remove below annotation because we specified our own health test runner.
+// @RunWith(AndroidJUnit4::class)
+
+// If you want to use hilt in android components you should add @HiltAndroidTest annotation
+// Then we can inject dependencies into test class
+@HiltAndroidTest
 @ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
 @SmallTest
 class ShoppingDaoTest {
 
-    private lateinit var database: ShoppingItemDatabase
-    private lateinit var shoppingDao: ShoppingDao
+    // We need to define rule for hilt
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     // for this reason we should add this rule : java.lang.IllegalStateException: This job has not completed yet
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    // Hilt doesn't know which database it should inject, because inside of our test class
+    // we also have access to our real app module in which we also provide such a shopping item database.
+    // so it doesn't know if it should take the shopping item database from our app module or from our test app module.
+    // to solve that problem we can simply add such @Named annotation this function and provide database function on TestAppModule.provideInMemoryDb
+    @Inject
+    @Named("test_db")
+    lateinit var database: ShoppingItemDatabase
+    private lateinit var shoppingDao: ShoppingDao
+
     @Before
     fun setup() {
-        // inMemoryDatabaseBuilder : not real database
-        // allowMainThreadQueries : allow that we access this room database from the main thread
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            ShoppingItemDatabase::class.java
-        ).allowMainThreadQueries().build()
-
+        hiltRule.inject()
         shoppingDao = database.shoppingDao()
     }
 
