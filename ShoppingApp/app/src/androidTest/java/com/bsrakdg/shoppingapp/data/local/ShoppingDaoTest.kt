@@ -2,6 +2,8 @@ package com.bsrakdg.shoppingapp.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
+import com.bsrakdg.shoppingapp.launchFragmentInHiltContainer
+import com.bsrakdg.shoppingapp.ui.ShoppingFragment
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -95,6 +97,13 @@ class ShoppingDaoTest {
         val totalPriceSum = shoppingDao.observeTotalPrice().getOrAwaitValue()
 
         assertThat(totalPriceSum).isEqualTo(2 * 10f + 4 * 5.5f)
+    }
+
+    @Test
+    fun testLaunchFragmentInHiltContainer() {
+        launchFragmentInHiltContainer<ShoppingFragment>() {
+
+        }
     }
 
 }
