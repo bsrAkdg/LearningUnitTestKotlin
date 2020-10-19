@@ -118,7 +118,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "org.mockito:mockito-core:2.25.0"
     androidTestImplementation "com.google.dagger:hilt-android-testing:2.28.3-alpha"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
 
     debugImplementation "androidx.fragment:fragment-testing:1.3.0-beta01"
+
+    /*
+        You should disable animations on your device before you start espresso tests
+        1. adb shell settings put global window_animation_scale 0
+        2. adb shell settings put global transition_animation_scale 0
+        3. adb shell settings put global animator_duration_scale 0
+     */
 }
