@@ -37,7 +37,7 @@ class AddShoppingItemFragmentTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Inject
-    lateinit var fragmentFactory: ShoppingFragmentFactory
+    lateinit var fragmentFactory: TestShoppingFragmentFactory
 
     @Before
     fun setup() {
